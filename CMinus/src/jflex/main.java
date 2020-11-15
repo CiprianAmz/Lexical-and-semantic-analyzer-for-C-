@@ -28,7 +28,6 @@ public class main {
         tokenClass.put(sym.ADD    , "ADD");
         tokenClass.put(sym.MULT   , "MULT");
         tokenClass.put(sym.DIV    , "DIV");
-        tokenClass.put(sym.NOT    , "NOT");
         tokenClass.put(sym.SEMICOL, "SEMICOL");
         tokenClass.put(sym.SUB    , "SUB");
         tokenClass.put(sym.ASSIGN , "ASSIGN");

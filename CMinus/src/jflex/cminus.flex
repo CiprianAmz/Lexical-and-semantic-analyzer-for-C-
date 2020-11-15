@@ -6,7 +6,7 @@ import java_cup.runtime.Symbol;
 %unicode
 %class Lexer
 %cup
-%implements sym
+%extends sym
 
 %line
 %column
@@ -75,7 +75,6 @@ Num = [0-9]+
    "==" { return symbol(EQ); }
    "!=" { return symbol(NOTEQ); }
 
-   "!" { return symbol(NOT); }
    "=" { return symbol(ASSIGN); }
    ";" { return symbol(SEMICOL); }
    "," { return symbol(COMMA); }
