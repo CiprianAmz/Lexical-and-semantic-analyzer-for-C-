@@ -1,0 +1,248 @@
+/* Imported packages */
+package jflex;
+import astClasses.*;
+import java.lang.*;
+import java.util.*;
+import java_cup.runtime.*;
+import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream; 
+
+parser code {:
+  protected Lexer lexer;
+:}
+
+/* define how to connect to the scanner! */
+init with {:
+  ComplexSymbolFactory f = new ComplexSymbolFactory();
+  symbolFactory = f;
+  File file = new File("test.c");
+  FileInputStream fis = null;
+  try {
+    fis = new FileInputStream(file);
+  } catch (IOException e) {
+    e.printStackTrace();
+  } 
+  lexer = new Lexer(f,fis);
+:};
+scan with {: return lexer.next_token(); :};
+
+/* Terminals (tokens returned by the scanner). */
+terminal INT         ;
+terminal IF          ;
+terminal ELSE        ;
+terminal VOID        ;
+terminal RETURN      ;
+terminal WHILE       ;
+terminal EQ          ;
+terminal NOTEQ       ;
+terminal GT          ;
+terminal LT          ;
+terminal GTEQ        ;
+terminal LTEQ        ;
+terminal COMMA       ;
+terminal ADD         ;
+terminal MULT        ;
+terminal DIV         ;
+terminal SEMICOL     ;
+terminal SUB         ;
+terminal ASSIGN      ;
+terminal LBRKT       ;
+terminal RBRKT       ;
+terminal RSQBKT      ;
+terminal LSQBKT      ;
+terminal RPAREN      ;
+terminal LPAREN      ;
+terminal String ID   ;
+terminal Integer NUM ;
+terminal WHITESPACE  ;
+
+/* Non terminals */
+non terminal Program program;
+non terminal DeclarationList declaration_list;
+non terminal Declaration declaration;
+non terminal VarDeclaration var_declaration;
+non terminal TypeSpecifier type_specifier;
+non terminal FunDeclaration fun_declaration;
+non terminal Params params;
+non terminal ParamList param_list;
+non terminal Param param;
+non terminal CompoundStmt compound_stmt;
+non terminal LocalDeclarations local_declarations;
+non terminal StatementList statement_list;
+non terminal Statement statement;
+non terminal ExpressionStmt expression_stmt;
+non terminal SelectionStmt selection_stmt;
+non terminal IterationStmt iteration_stmt;
+non terminal ReturnStmt return_stmt;
+non terminal Expression expression;
+non terminal Var var;
+non terminal SimpleExpression simple_expression;
+non terminal Relop relop;
+non terminal AdditiveExpression additive_expression;
+non terminal Addop addop;
+non terminal Term term;
+non terminal Mulop mulop;
+non terminal Factor factor;
+non terminal Call call;
+non terminal Args args;
+non terminal ArgList arg_list;
+
+/* Precedences */
+precedence left LT, GT, LTEQ, GTEQ, EQ, NOTEQ, LPAREN, ID, RPAREN;
+precedence left ASSIGN, ADD, SUB, MULT, DIV;
+precedence left ELSE;
+
+/* Rules */
+
+start with program;
+
+/* The grammar rules */
+program ::= declaration_list:dl {: RESULT = new Program(dl); :}
+;
+
+declaration_list ::= declaration_list:dl declaration:d {: 
+				if(dl == null){
+					RESULT = new DeclarationList(dl, d);
+				}
+				else {
+					RESULT = dl; 
+					RESULT.addDeclaration(d);
+				}
+	 		:}
+			| declaration:d {: RESULT = new DeclarationList(d); :}
+;
+declaration ::= var_declaration:vd {: RESULT = new Declaration(vd); :}
+				| fun_declaration:fd {: RESULT = new Declaration(fd); :}
+;
+var_declaration ::= type_specifier:ts ID:i SEMICOL {: RESULT = new VarDeclaration(ts, i);  :}
+					| type_specifier:ts ID:i LSQBKT NUM:n RSQBKT SEMICOL {: RESULT = new VarDeclaration(ts, i, n); :}
+;
+type_specifier ::= INT {: RESULT = new TypeSpecifier("INT"); :}
+					| VOID {: RESULT = new TypeSpecifier("VOID"); :}
+;
+fun_declaration ::= type_specifier:ts ID:i LPAREN params:p RPAREN compound_stmt:cs {: RESULT = new FunDeclaration(ts, i, p, cs); :}
+;
+params ::= param_list:pl {: RESULT = new Params(pl); :} 
+			| VOID {: RESULT = new Params(); :} 
+;
+param_list ::= param_list:pl COMMA param:p {: 
+					if(pl == null){
+						RESULT = new ParamList(pl, p); 
+					}
+					else {
+						RESULT = pl;
+						RESULT.addParam(p);
+					}
+				:} 	
+				| param:p {: RESULT = new ParamList(p); :} 
+;
+param ::= type_specifier:ts ID:i {: RESULT = new Param(ts, i); :} 
+			| type_specifier:ts ID:i LSQBKT RSQBKT {: RESULT = new Param(ts, i); :} 
+;
+compound_stmt ::= LBRKT local_declarations:ld statement_list:sl RBRKT {: RESULT = new CompoundStmt(ld, sl); :} 
+;
+local_declarations ::= local_declarations:ld var_declaration:vd {: 
+						if(ld == null) {
+							RESULT = new LocalDeclarations(ld, vd); 
+						}
+						else {
+							RESULT = ld;
+							RESULT.addDeclaration(vd);
+						}
+						:}  
+						| {: RESULT = new LocalDeclarations(); :}
+;
+statement_list ::= statement_list:sl statement:s {: 
+						if(sl == null){
+							RESULT = new StatementList(sl, s); 
+						}
+						else {
+							RESULT = sl;
+							RESULT.addStatement(s);
+						}
+					:}  
+					| {: RESULT = new StatementList(); :}
+;
+statement ::= expression_stmt:es {: RESULT = new Statement(es); :} 
+				| compound_stmt:cs {: RESULT = new Statement(cs); :} 
+				| selection_stmt:ss {: RESULT = new Statement(ss); :}  
+				| iteration_stmt:is {: RESULT = new Statement(is); :}  
+				| return_stmt:rs {: RESULT = new Statement(rs); :} 
+;
+expression_stmt ::= expression:e SEMICOL {: RESULT = new ExpressionStmt(e); :}  
+				| SEMICOL {: RESULT = new ExpressionStmt(); :}
+;
+selection_stmt ::= IF LPAREN expression:e RPAREN statement:s {: RESULT = new SelectionStmt(e,s); :}  
+					| IF LPAREN expression:e RPAREN statement:s1 ELSE statement:s2  {: RESULT = new SelectionStmt(e,s1,s2);  :} 
+;
+iteration_stmt ::= WHILE LPAREN expression:e RPAREN statement:s {:RESULT = new IterationStmt(e,s); :}
+;
+return_stmt ::= RETURN SEMICOL {: RESULT = new ReturnStmt(); :}
+				| RETURN expression:e SEMICOL {:RESULT = new ReturnStmt(e); :}
+;
+expression ::= var:v ASSIGN expression:e {: RESULT = new Expression(v,e);:}
+				| simple_expression:se {:RESULT = new Expression(se); :}
+;
+var ::= ID:i {: RESULT = new Var(i);:}
+		| ID:i LSQBKT expression:e RSQBKT {:RESULT = new Var(e, i); :}
+;
+simple_expression ::= additive_expression:ae1 relop:r additive_expression:ae2 {:RESULT = new SimpleExpression(ae1,r,ae2); :} 
+						| additive_expression:ae {:RESULT = new SimpleExpression(ae); :}
+;
+relop ::= LTEQ {: RESULT = new Relop("LTEQ"); :}
+			| LT {: RESULT = new Relop("LT"); :}
+			| GT {: RESULT = new Relop("GT"); :}
+			| GTEQ {: RESULT = new Relop("GTEQ"); :}
+			| EQ {: RESULT = new Relop("EQ"); :}
+			| NOTEQ{: RESULT = new Relop("NOTEQ"); :}
+;
+additive_expression ::= additive_expression:ae addop:a term:t {:
+					if(ae == null) {
+						RESULT = new AdditiveExpression(ae,a,t);
+					}
+					else {
+						RESULT = ae;
+						RESULT.addOperation(a, t);
+					}
+ 					:} 
+					| term:t {:RESULT = new AdditiveExpression(t);:}
+;
+addop ::= ADD {: RESULT = new Addop("ADD");:}
+			| SUB {: RESULT = new Addop("SUB");:}
+;
+term ::= term:t mulop:m factor:f {: 
+				if(t == null) {
+					RESULT = new Term(t,m,f);
+				} 
+				else {
+					RESULT = t;
+					RESULT.addOperator(m, f);
+				}
+			:}
+			| factor:f {:RESULT = new Term(f); :}
+;
+mulop ::= MULT {: RESULT = new Mulop("MULT");:}
+			| DIV {: RESULT = new Mulop("DIV");:}
+;
+factor ::= LPAREN expression:e RPAREN {: RESULT = new Factor(e); :}
+			| var:v {: RESULT = new Factor(v); :} 
+			| call:c {: RESULT = new Factor(c); :} 
+			| NUM:n {: RESULT = new Factor(n); :}
+;
+call ::= ID:i LPAREN args:a RPAREN {: RESULT = new Call(a, i); :}
+;
+args ::= arg_list:al {: RESULT = new Args(al); :} 
+		| {: RESULT = new Args(); :} 
+;
+arg_list ::= arg_list:al COMMA expression:e {: 
+				if(al == null) {
+					RESULT = new ArgList(al, e); 
+				}
+				else {
+					RESULT = al;
+					RESULT.addArg(e);
+				}
+			:}
+			| expression:e {: RESULT = new ArgList(e); :}
+;
