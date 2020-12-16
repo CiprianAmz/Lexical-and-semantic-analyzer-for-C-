@@ -1,4 +1,6 @@
 /* A C- program to compute gcd using Euclid’s Algorithm. */
+int test;
+
 int gcd ( int u, int v ) {
   if ( v == 0 )
     return u ;

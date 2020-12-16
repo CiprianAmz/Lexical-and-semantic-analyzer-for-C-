@@ -117,11 +117,16 @@ declaration ::= var_declaration:vd {: RESULT = new Declaration(vd); :}
 ;
 var_declaration ::= type_specifier:ts ID:i SEMICOL {: RESULT = new VarDeclaration(ts, i);  :}
 					| type_specifier:ts ID:i LSQBKT NUM:n RSQBKT SEMICOL {: RESULT = new VarDeclaration(ts, i, n); :}
+					| type_specifier:ts ID:i error {: RESULT = new VarDeclaration(ts, i);  :}
+					| type_specifier:ts ID:i LSQBKT NUM:n RSQBKT error {: RESULT = new VarDeclaration(ts, i, n); :}
+					| error SEMICOL {: RESULT = new ErrorVarDeclaration("Invalid Declaration"); :}   
 ;
 type_specifier ::= INT {: RESULT = new TypeSpecifier("INT"); :}
 					| VOID {: RESULT = new TypeSpecifier("VOID"); :}
+					| error {: RESULT = new ErrorTypeSpecifier("Invalid Type"); :} 
 ;
 fun_declaration ::= type_specifier:ts ID:i LPAREN params:p RPAREN compound_stmt:cs {: RESULT = new FunDeclaration(ts, i, p, cs); :}
+					| type_specifier:ts ID:i LPAREN error {: RESULT = new ErrorFunDeclaration("Invalid Function Declaration"); :}
 ;
 params ::= param_list:pl {: RESULT = new Params(pl); :} 
 			| VOID {: RESULT = new Params(); :} 
@@ -141,11 +146,13 @@ param ::= type_specifier:ts ID:i {: RESULT = new Param(ts, i); :}
 			| type_specifier:ts ID:i LSQBKT RSQBKT {: RESULT = new Param(ts, i); :} 
 ;
 compound_stmt ::= LBRKT local_declarations:ld statement_list:sl RBRKT {: RESULT = new CompoundStmt(ld, sl); :} 
+				| error	local_declarations:ld statement_list:sl RBRKT {: RESULT = new ErrorCompoundStmt("Left Bracket Expected"); :}
+				| LBRKT local_declarations:ld statement_list:sl error {: RESULT = new ErrorCompoundStmt("Right Bracket Expected"); :}
 ;
 local_declarations ::= local_declarations:ld var_declaration:vd {: 
 						if(ld == null) {
 							RESULT = new LocalDeclarations(ld, vd); 
-						}
+						} 
 						else {
 							RESULT = ld;
 							RESULT.addDeclaration(vd);
@@ -172,14 +179,20 @@ statement ::= expression_stmt:es {: RESULT = new Statement(es); :}
 ;
 expression_stmt ::= expression:e SEMICOL {: RESULT = new ExpressionStmt(e); :}  
 				| SEMICOL {: RESULT = new ExpressionStmt(); :}
+				| error SEMICOL {: RESULT = new ErrorExpressionStmt("Invalid Expression"); :}  
 ;
 selection_stmt ::= IF LPAREN expression:e RPAREN statement:s {: RESULT = new SelectionStmt(e,s); :}  
 					| IF LPAREN expression:e RPAREN statement:s1 ELSE statement:s2  {: RESULT = new SelectionStmt(e,s1,s2);  :} 
+					| IF LPAREN expression:e RPAREN error {: RESULT = new ErrorSelectionStmt("Invalid If Statement"); :}
 ;
 iteration_stmt ::= WHILE LPAREN expression:e RPAREN statement:s {:RESULT = new IterationStmt(e,s); :}
+					| WHILE LPAREN expression:e RPAREN error {: RESULT = new ErrorIterationStmt("Invalid While Statement"); :}
 ;
 return_stmt ::= RETURN SEMICOL {: RESULT = new ReturnStmt(); :}
-				| RETURN expression:e SEMICOL {:RESULT = new ReturnStmt(e); :}
+				| RETURN expression:e SEMICOL {: RESULT = new ReturnStmt(e); :}
+				| RETURN error SEMICOL {: RESULT = new ErrorReturnStmt("Invalid Return Expression"); :}
+				| RETURN error {: RESULT = new ErrorReturnStmt("Invalid Return Expression"); :}
+				| RETURN expression:e error {: RESULT = new ReturnStmt(e); :} 
 ;
 expression ::= var:v ASSIGN expression:e {: RESULT = new Expression(v,e);:}
 				| simple_expression:se {:RESULT = new Expression(se); :}
@@ -231,6 +244,7 @@ factor ::= LPAREN expression:e RPAREN {: RESULT = new Factor(e); :}
 			| NUM:n {: RESULT = new Factor(n); :}
 ;
 call ::= ID:i LPAREN args:a RPAREN {: RESULT = new Call(a, i); :}
+			| ID:i LPAREN error {: RESULT = new ErrorCall("Invalid Call"); :}
 ;
 args ::= arg_list:al {: RESULT = new Args(al); :} 
 		| {: RESULT = new Args(); :} 

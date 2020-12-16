@@ -87,7 +87,7 @@ public class Driver {
                 e.printStackTrace();
             }
             
-            System.out.println("\n\nSyntactic Tree:\n");
+            System.out.println("\n\nSyntax Tree:\n");
             Parser parser = new Parser();
 			try {				
 	            Symbol root = parser.parse();
