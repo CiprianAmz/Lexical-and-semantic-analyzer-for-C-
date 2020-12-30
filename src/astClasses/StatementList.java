@@ -50,7 +50,7 @@ public class StatementList extends AbstractSyntaxTreeNode {
 	@Override
 	public boolean checkSemantic(Symbol context) {
 		for(Statement statement:sList) {
-			statement.checkSemantic(null);
+			statement.checkSemantic(context);
 		}
 		
 		return false;

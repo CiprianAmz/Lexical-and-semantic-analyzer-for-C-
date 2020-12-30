@@ -29,7 +29,10 @@ public class Args extends AbstractSyntaxTreeNode {
 	}
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
+		if(al != null) {			
+			al.checkSemantic(context);
+		}
+		
 		return false;
 	}
 

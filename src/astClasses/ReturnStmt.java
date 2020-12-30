@@ -29,7 +29,12 @@ public class ReturnStmt extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
+		if(e != null) {
+			if(e.checkSemantic(context) == false) {
+				semanticErrors.add("Error: Invalid RETURN value."); 
+			}
+		}
+		
 		return false;
 	}
 

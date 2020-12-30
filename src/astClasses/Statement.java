@@ -1,5 +1,6 @@
 package astClasses;
 
+import symbolTable.ESymbolType;
 import symbolTable.Symbol;
 
 public class Statement extends AbstractSyntaxTreeNode {
@@ -69,7 +70,27 @@ public class Statement extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
+		if(cs != null) {
+			Symbol newScope = new Symbol(ESymbolType.Scope);
+			context.addSymbol(newScope);
+			cs.checkSemantic(newScope);
+		}
+		else if(es != null) {
+			es.checkSemantic(context);
+		}
+		else if(cs != null) {
+			cs.checkSemantic(context);
+		}
+		else if(ss != null) {
+			ss.checkSemantic(context);
+		}
+		else if(is != null) {
+			is.checkSemantic(context);
+		}
+		else if(rs != null) {
+			rs.checkSemantic(context);
+		}
+
 		return false;
 	}
 }

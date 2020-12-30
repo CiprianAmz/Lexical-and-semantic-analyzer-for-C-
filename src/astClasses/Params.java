@@ -42,7 +42,11 @@ public class Params extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
+		if( pl!= null)
+		{
+			pl.checkSemantic(context);
+		}
+		
 		return false;
 	}
 }

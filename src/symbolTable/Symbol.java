@@ -60,7 +60,7 @@ public class Symbol {
 		this.ref = ref;
 	}
 	
-	public Symbol SearchSymbol(String SymbolName) {
+	public Symbol searchSymbol(String SymbolName) {
 		Symbol current_refSym = this;
 		while(current_refSym != null) {
 			if(current_refSym.getName() != null) {
@@ -99,7 +99,7 @@ public class Symbol {
 	
 	public boolean addSymbol(Symbol symbol) {
 		if(symbol.type == ESymbolType.Scope
-		|| this.SearchSymbol(symbol.getName()) == null) {			
+		|| this.searchSymbol(symbol.getName()) == null) {			
 			this.symbolTable.add(symbol);
 			symbol.setRef(this);
 			return true;
@@ -110,7 +110,7 @@ public class Symbol {
 	}
 	
 	public boolean checkOperation(String operation, String SymbolName) {
-		Symbol sym = SearchSymbol(SymbolName);
+		Symbol sym = searchSymbol(SymbolName);
 		
 		switch(operation) {
 			case "addop":

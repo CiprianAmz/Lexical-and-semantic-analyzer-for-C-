@@ -28,17 +28,9 @@ public class Program extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-//		currentSymbolTable = context;
+		currentSymbolTable = context;
 		
-		for(Declaration decl:dl.dList) {
-			if(this.currentSymbolTable.addSymbol(decl.getSymbol())) {
-			}
-			else {
-				semanticErrors.add("Error: Multiple declarations for symbol " + decl.getSymbol().getName());
-			}
-		}
-		
-		dl.checkSemantic(null);
+		dl.checkSemantic(currentSymbolTable);
 		
 		for(String error:semanticErrors) {
 			System.out.println(error);

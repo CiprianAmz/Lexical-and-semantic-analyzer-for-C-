@@ -34,7 +34,10 @@ public class ExpressionStmt extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
+		if(e != null) {
+			e.checkSemantic(context);
+		}
+		
 		return false;
 	}
 }

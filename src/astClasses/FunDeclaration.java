@@ -44,21 +44,16 @@ public class FunDeclaration extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		currentSymbol.addSymbol(cs.currentSymbolTable);
+//		Symbol newScope = new Symbol(ESymbolType.Scope);
+//		currentSymbol.addSymbol(newScope);
+		context.addSymbol(currentSymbol);
 		
-		if(p.pl != null) {
+		if(this.p.pl != null) {			
 			currentSymbol.setArgumentsNumber(p.pl.pList.size());
-			//append the function parameters to the compound statement scope
-			for(Param param:p.pl.pList) {
-				if(cs.currentSymbolTable.addSymbol(param.currentSymbol)) {
-				}
-				else {
-					semanticErrors.add("Error: Multiple declarations for symbol " + param.currentSymbol.getName());
-				}
-			}
 		}
 		
-		cs.checkSemantic(null);
+		p.checkSemantic(currentSymbol);
+		cs.checkSemantic(currentSymbol);
 		
 		// TODO Auto-generated method stub
 		return false;

@@ -48,7 +48,18 @@ public class ArgList extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
+		boolean errorChecked = false;
+		
+		if(al != null) {
+			al.checkSemantic(context);
+		}
+		for(Expression exp:eList) {
+			if(exp.checkSemantic(context) == false && errorChecked == false) {
+				errorChecked = false;
+				semanticErrors.add("Error: Invalid expression"); 
+			}
+		}
+		
 		return false;
 	}
 

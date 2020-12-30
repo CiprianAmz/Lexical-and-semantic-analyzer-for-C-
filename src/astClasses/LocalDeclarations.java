@@ -46,7 +46,10 @@ public class LocalDeclarations extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
+		for(VarDeclaration var:vdList) {
+			var.checkSemantic(context);
+		}
+		
 		return false;
 	}
 	

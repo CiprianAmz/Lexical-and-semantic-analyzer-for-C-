@@ -43,7 +43,16 @@ public class SelectionStmt extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
+		if(e.checkSemantic(context) == false) {
+			semanticErrors.add("Error: Invalid IF contition."); 
+		}
+		
+		s1.checkSemantic(context);
+		
+		if(s2 != null) {
+			s2.checkSemantic(context);
+		}
+		
 		return false;
 	}
 

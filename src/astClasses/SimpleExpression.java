@@ -40,8 +40,26 @@ public class SimpleExpression extends AbstractSyntaxTreeNode {
 	}
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean returnINT = false;
+		
+		returnINT = ae1.checkSemantic(context);
+		if(ae2 != null) {			
+			if(ae2.checkSemantic(context)) {				
+				if(returnINT) {					
+					return true;
+				}
+				else {
+					semanticErrors.add("Error: Incompatible expression result.");
+					return true;
+				}
+			}
+			else {
+				semanticErrors.add("Error: Incompatible expression result.");
+				return true;
+			}	
+		}
+		
+		return returnINT;
 	}
 
 }

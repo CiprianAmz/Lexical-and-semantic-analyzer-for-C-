@@ -29,7 +29,12 @@ public class IterationStmt extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
+		if(e.checkSemantic(context) == false) {
+			semanticErrors.add("Error: Invalid WHILE contition."); 
+		}
+		
+		s.checkSemantic(context);
+		
 		return false;
 	}
 		

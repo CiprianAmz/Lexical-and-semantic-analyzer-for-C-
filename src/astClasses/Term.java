@@ -67,8 +67,29 @@ public class Term extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean returnINT = true;
+		
+		if(t != null) {
+			if(t.checkSemantic(context) == false) {
+				returnINT = false;
+				
+				semanticErrors.add("Error: Incompatible expression result.");
+			}
+		}
+		
+		for(PairFactor factor:this.opList) {
+			if(factor.f.checkSemantic(context) == false && returnINT == true) {
+				returnINT = false;
+				
+				semanticErrors.add("Error: Incompatible expression result.");
+			}
+		}
+		
+		if(this.f != null) {
+			return f.checkSemantic(context);
+		}
+		
+		return returnINT;
 	}
 
 }

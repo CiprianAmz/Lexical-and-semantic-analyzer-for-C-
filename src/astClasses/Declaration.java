@@ -20,17 +20,6 @@ public class Declaration extends AbstractSyntaxTreeNode {
 		this.addNode(fd);
 	}
 	
-	Symbol getSymbol() {
-		if(this.fd != null) {
-			return this.fd.currentSymbol;
-		}
-		else if (this.vd != null) {
-			return this.vd.currentSymbol;
-		}
-		
-		return null;
-	}
-	
 	public void print() {
 		System.out.println("Declaration");
 		
@@ -50,9 +39,13 @@ public class Declaration extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		if(fd != null) {
-			fd.checkSemantic(null);
+		if(vd != null) {
+			vd.checkSemantic(context);
 		}
+		else if(fd != null) {
+			fd.checkSemantic(context);
+		}
+		
 		return false;
 	}
 }

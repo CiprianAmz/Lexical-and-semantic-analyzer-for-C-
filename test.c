@@ -11,15 +11,17 @@ int gcd (int u, int v) {
 
 void main(void) {
   int x;
-  int y[10];
+  int y[4];
 
   {
     int w;
-    int main;
   }
 
-  x = 1 + 2 + 3 + 4;
-  x = input();
+  x = main;
+  x = 1 + kapa + 2 + 3 + 4;
+  x = gcd();
   y = input();
-  output(gcd(x,y));
+
+  return main();
+  /* output(gcd(x,y));*/
 }

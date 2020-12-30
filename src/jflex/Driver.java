@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java_cup.runtime.ComplexSymbolFactory;
 import java_cup.runtime.Symbol;
 import astClasses.Program;
+import symbolTable.*;
 
 public class Driver {
     static HashMap<Integer, String> tokenClass = new HashMap<Integer, String> ();
@@ -96,7 +97,9 @@ public class Driver {
 	            System.out.println(root.value);
 	            
 	            program.printTree(0);
-	            program.checkSemantic(null);
+	            
+	            symbolTable.Symbol context = new symbolTable.Symbol(ESymbolType.Scope);
+	            program.checkSemantic(context);
 			}
 			catch(Exception e) {
 				System.out.println("Invalid Syntax");

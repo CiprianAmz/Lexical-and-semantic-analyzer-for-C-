@@ -29,5 +29,6 @@ public abstract class AbstractSyntaxTreeNode {
 	
 	public abstract String getNodeType();
 	
+	//returns false if there is no type for expression (void) or 1 if there is type (0)
 	public abstract boolean checkSemantic(Symbol context);
 }

@@ -49,7 +49,12 @@ public class VarDeclaration extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
+		if(context.addSymbol(this.currentSymbol)) {
+		}
+		else {
+			semanticErrors.add("Error: Multiple declarations for symbol " + currentSymbol.getName());
+		}
+	
 		return false;
 	}
 	

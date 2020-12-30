@@ -3,10 +3,10 @@ package astClasses;
 import symbolTable.Symbol;
 
 public class Factor extends AbstractSyntaxTreeNode {
-	Expression e;
-	Var v;
-	Call c;
-	Integer NUM;
+	Expression e = null;
+	Var v = null;
+	Call c = null;
+	Integer NUM = null;
 	
 	public Factor(Expression e){
 		this.e = e;
@@ -54,8 +54,17 @@ public class Factor extends AbstractSyntaxTreeNode {
 	}
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
-		return false;
+		if(e != null) {
+			return e.checkSemantic(context);
+		}
+		else if(v != null) {
+			return v.checkSemantic(context);
+		}
+		else if(c != null) {
+			return c.checkSemantic(context);
+		}
+		
+		return true;
 	}
 
 }

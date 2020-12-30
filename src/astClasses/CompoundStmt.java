@@ -32,22 +32,8 @@ public class CompoundStmt extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		for(VarDeclaration var:ld.vdList) {
-			if(currentSymbolTable.addSymbol(var.currentSymbol)) {
-			}
-			else {
-				semanticErrors.add("Error: Multiple declarations for symbol " + var.currentSymbol.getName());
-			}
-		}
-		
-		for(Statement statement:sl.sList) {
-			if(statement.cs != null) {
-				currentSymbolTable.addSymbol(statement.cs.currentSymbolTable);
-				statement.cs.checkSemantic(context);
-			}
-		}
-		
-		sl.checkSemantic(null);
+		ld.checkSemantic(context);
+		sl.checkSemantic(context);
 		
 		return false;
 	}

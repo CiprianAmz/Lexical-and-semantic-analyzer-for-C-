@@ -67,8 +67,30 @@ public class AdditiveExpression extends AbstractSyntaxTreeNode{
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean returnINT = true;
+		
+		if(ae != null) {
+			if(ae.checkSemantic(context) == false) {
+				returnINT = false;
+				
+				semanticErrors.add("Error: Incompatible expression result.");
+			};
+		}
+		
+		for(Pair op:opList) {
+			if(op.t.checkSemantic(context) == false && returnINT == true) {
+				returnINT = false;
+				
+				semanticErrors.add("Error: Incompatible expression result.");
+			}
+			
+		}
+
+		if(opList.size() == 0) {
+			return t.checkSemantic(context);
+		}
+		
+		return returnINT;
 	}
 
 }

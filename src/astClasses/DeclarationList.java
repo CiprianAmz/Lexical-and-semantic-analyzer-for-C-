@@ -49,7 +49,7 @@ public class DeclarationList extends AbstractSyntaxTreeNode {
 	@Override
 	public boolean checkSemantic(Symbol context) {
 		for(Declaration decl:this.dList) {
-			decl.checkSemantic(null);
+			decl.checkSemantic(context);
 		}
 
 		return false;

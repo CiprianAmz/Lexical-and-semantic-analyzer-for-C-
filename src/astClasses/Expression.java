@@ -47,13 +47,23 @@ public class Expression extends AbstractSyntaxTreeNode {
 	@Override
 	public String getNodeType() {
 		// TODO Auto-generated method stub
-		return "Extression";
+		return "Expression";
 	}
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
-		return false;
+		if(se != null) {
+			return se.checkSemantic(context);
+		}
+		else {
+			v.checkSemantic(context);
+			
+			if(e.checkSemantic(context) == false) {
+				semanticErrors.add("Error: Incompatible expression result.");
+			}
+		}
+		
+		return true;
 	}
 
 }

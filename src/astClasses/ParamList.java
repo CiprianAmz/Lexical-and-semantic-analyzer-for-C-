@@ -48,7 +48,10 @@ public class ParamList extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
-		// TODO Auto-generated method stub
+		for(Param p:pList) {
+			p.checkSemantic(context);
+		}
+		
 		return false;
 	}
 }
