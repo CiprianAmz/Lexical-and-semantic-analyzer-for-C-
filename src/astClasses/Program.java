@@ -1,10 +1,15 @@
 package astClasses;
 
+import symbolTable.*;
+
 public class Program extends AbstractSyntaxTreeNode {
 	DeclarationList dl;
+	Symbol currentSymbolTable;
+	
 	
 	public Program(DeclarationList dl) {
 		this.dl = dl;
+		this.currentSymbolTable = new Symbol(ESymbolType.Scope);
 		
 		this.addNode(dl);
 	}
@@ -19,5 +24,26 @@ public class Program extends AbstractSyntaxTreeNode {
 	public String getNodeType() {
 		// TODO Auto-generated method stub
 		return "Program";
+	}
+
+	@Override
+	public boolean checkSemantic(Symbol context) {
+//		currentSymbolTable = context;
+		
+		for(Declaration decl:dl.dList) {
+			if(this.currentSymbolTable.addSymbol(decl.getSymbol())) {
+			}
+			else {
+				semanticErrors.add("Error: Multiple declarations for symbol " + decl.getSymbol().getName());
+			}
+		}
+		
+		dl.checkSemantic(null);
+		
+		for(String error:semanticErrors) {
+			System.out.println(error);
+		}
+		
+		return false;
 	}
 }

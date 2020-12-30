@@ -2,6 +2,8 @@ package astClasses;
 
 import java.util.ArrayList;
 
+import symbolTable.Symbol;
+
 class Pair {
 	Addop a;
 	Term t;
@@ -61,6 +63,12 @@ public class AdditiveExpression extends AbstractSyntaxTreeNode{
 	public String getNodeType() {
 		// TODO Auto-generated method stub
 		return "AdditiveExpression";
+	}
+
+	@Override
+	public boolean checkSemantic(Symbol context) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

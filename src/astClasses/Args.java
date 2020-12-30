@@ -1,5 +1,7 @@
 package astClasses;
 
+import symbolTable.Symbol;
+
 public class Args extends AbstractSyntaxTreeNode {
 	ArgList al;
 	
@@ -24,6 +26,11 @@ public class Args extends AbstractSyntaxTreeNode {
 	public String getNodeType() {
 		// TODO Auto-generated method stub
 		return "Args";
+	}
+	@Override
+	public boolean checkSemantic(Symbol context) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -1,5 +1,7 @@
 package astClasses;
 
+import symbolTable.Symbol;
+
 public class Var extends AbstractSyntaxTreeNode {
 	Expression e;
 	String ID;
@@ -27,6 +29,11 @@ public class Var extends AbstractSyntaxTreeNode {
 	public String getNodeType() {
 		// TODO Auto-generated method stub
 		return "Var: " + ID;
+	}
+	@Override
+	public boolean checkSemantic(Symbol context) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

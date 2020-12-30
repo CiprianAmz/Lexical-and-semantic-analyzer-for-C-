@@ -1,5 +1,7 @@
 package astClasses;
 
+import symbolTable.Symbol;
+
 public class ExpressionStmt extends AbstractSyntaxTreeNode {
 	Expression e;
 	
@@ -28,5 +30,11 @@ public class ExpressionStmt extends AbstractSyntaxTreeNode {
 	public String getNodeType() {
 		// TODO Auto-generated method stub
 		return "ExpressionStmt";
+	}
+
+	@Override
+	public boolean checkSemantic(Symbol context) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

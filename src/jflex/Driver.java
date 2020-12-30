@@ -96,10 +96,11 @@ public class Driver {
 	            System.out.println(root.value);
 	            
 	            program.printTree(0);
+	            program.checkSemantic(null);
 			}
 			catch(Exception e) {
 				System.out.println("Invalid Syntax");
-				//e.printStackTrace();
+				e.printStackTrace();
 			}
 
         } catch (FileNotFoundException e) {

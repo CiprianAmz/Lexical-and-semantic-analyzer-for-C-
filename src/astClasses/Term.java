@@ -2,6 +2,8 @@ package astClasses;
 
 import java.util.ArrayList;
 
+import symbolTable.Symbol;
+
 class PairFactor {
 	Mulop m;
 	Factor f;
@@ -61,6 +63,12 @@ public class Term extends AbstractSyntaxTreeNode {
 	public String getNodeType() {
 		// TODO Auto-generated method stub
 		return "Term";
+	}
+
+	@Override
+	public boolean checkSemantic(Symbol context) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -1,14 +1,20 @@
 package astClasses;
 
+import symbolTable.*;
+
 public class VarDeclaration extends AbstractSyntaxTreeNode {
 	TypeSpecifier ts;
 	String ID;
 	Integer NUM;
+	Symbol currentSymbol;
+	
 	
 	public VarDeclaration(TypeSpecifier ts, String ID) {
 		this.ts = ts;
 		this.ID = ID;
 		this.NUM = null;
+		
+		this.currentSymbol = new Symbol(this.ID, ESymbolType.INT);
 		
 		this.addNode(ts);
 	}
@@ -17,6 +23,8 @@ public class VarDeclaration extends AbstractSyntaxTreeNode {
 		this.ts = ts;
 		this.ID = ID;
 		this.NUM = NUM;
+		
+		this.currentSymbol = new Symbol(this.ID, ESymbolType.INTarray);
 		
 		this.addNode(ts);
 	}
@@ -37,6 +45,12 @@ public class VarDeclaration extends AbstractSyntaxTreeNode {
 		else {
 			return "VarDeclaration: " + ID;
 		}
+	}
+
+	@Override
+	public boolean checkSemantic(Symbol context) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

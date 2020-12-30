@@ -1,5 +1,7 @@
 package astClasses;
 
+import symbolTable.Symbol;
+
 public class Params extends AbstractSyntaxTreeNode {
 	ParamList pl;
 	
@@ -36,5 +38,11 @@ public class Params extends AbstractSyntaxTreeNode {
 		else {
 			return "Params";
 		}
+	}
+
+	@Override
+	public boolean checkSemantic(Symbol context) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

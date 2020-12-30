@@ -1,5 +1,7 @@
 package astClasses;
 
+import symbolTable.Symbol;
+
 public class Factor extends AbstractSyntaxTreeNode {
 	Expression e;
 	Var v;
@@ -49,6 +51,11 @@ public class Factor extends AbstractSyntaxTreeNode {
 		else {
 			return "Factor";
 		}
+	}
+	@Override
+	public boolean checkSemantic(Symbol context) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

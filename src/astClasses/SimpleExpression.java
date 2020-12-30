@@ -1,5 +1,7 @@
 package astClasses;
 
+import symbolTable.Symbol;
+
 public class SimpleExpression extends AbstractSyntaxTreeNode {
     AdditiveExpression ae1;
     Relop r;
@@ -35,6 +37,11 @@ public class SimpleExpression extends AbstractSyntaxTreeNode {
 	public String getNodeType() {
 		// TODO Auto-generated method stub
 		return "SimpleExpression";
+	}
+	@Override
+	public boolean checkSemantic(Symbol context) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

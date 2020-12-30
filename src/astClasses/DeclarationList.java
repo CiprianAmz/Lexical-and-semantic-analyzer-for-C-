@@ -2,6 +2,8 @@ package astClasses;
 
 import java.util.ArrayList;
 
+import symbolTable.Symbol;
+
 public class DeclarationList extends AbstractSyntaxTreeNode {
 	DeclarationList dl;
 	ArrayList<Declaration> dList = new ArrayList<>();
@@ -42,5 +44,14 @@ public class DeclarationList extends AbstractSyntaxTreeNode {
 	public String getNodeType() {
 		// TODO Auto-generated method stub
 		return "DeclarationList";
+	}
+
+	@Override
+	public boolean checkSemantic(Symbol context) {
+		for(Declaration decl:this.dList) {
+			decl.checkSemantic(null);
+		}
+
+		return false;
 	}
 }

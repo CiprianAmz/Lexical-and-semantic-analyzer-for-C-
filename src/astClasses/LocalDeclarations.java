@@ -2,6 +2,8 @@ package astClasses;
 
 import java.util.ArrayList;
 
+import symbolTable.Symbol;
+
 public class LocalDeclarations extends AbstractSyntaxTreeNode {
 	LocalDeclarations ld; 
 	ArrayList<VarDeclaration> vdList = new ArrayList<>();
@@ -40,6 +42,12 @@ public class LocalDeclarations extends AbstractSyntaxTreeNode {
 	public String getNodeType() {
 		// TODO Auto-generated method stub
 		return "LocalDeclarations";
+	}
+
+	@Override
+	public boolean checkSemantic(Symbol context) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

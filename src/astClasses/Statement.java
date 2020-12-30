@@ -1,11 +1,13 @@
 package astClasses;
 
+import symbolTable.Symbol;
+
 public class Statement extends AbstractSyntaxTreeNode {
-	ExpressionStmt es;
-	CompoundStmt cs; 
-	SelectionStmt ss;
-	IterationStmt is;
-	ReturnStmt rs;
+	ExpressionStmt es = null;
+	CompoundStmt cs = null; 
+	SelectionStmt ss = null;
+	IterationStmt is = null;
+	ReturnStmt rs = null;
 	
 	public Statement(ExpressionStmt es) {
 		this.es = es;
@@ -63,5 +65,11 @@ public class Statement extends AbstractSyntaxTreeNode {
 	public String getNodeType() {
 		// TODO Auto-generated method stub
 		return "Statement";
+	}
+
+	@Override
+	public boolean checkSemantic(Symbol context) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

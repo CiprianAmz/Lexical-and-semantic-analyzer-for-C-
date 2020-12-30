@@ -142,8 +142,8 @@ param_list ::= param_list:pl COMMA param:p {:
 				:} 	
 				| param:p {: RESULT = new ParamList(p); :} 
 ;
-param ::= type_specifier:ts ID:i {: RESULT = new Param(ts, i); :} 
-			| type_specifier:ts ID:i LSQBKT RSQBKT {: RESULT = new Param(ts, i); :} 
+param ::= type_specifier:ts ID:i {: RESULT = new Param(ts, i, false); :} 
+			| type_specifier:ts ID:i LSQBKT RSQBKT {: RESULT = new Param(ts, i, true); :} 
 ;
 compound_stmt ::= LBRKT local_declarations:ld statement_list:sl RBRKT {: RESULT = new CompoundStmt(ld, sl); :} 
 				| error	local_declarations:ld statement_list:sl RBRKT {: RESULT = new ErrorCompoundStmt("Left Bracket Expected"); :}

@@ -2,6 +2,8 @@ package astClasses;
 
 import java.util.ArrayList;
 
+import symbolTable.Symbol;
+
 public class ParamList extends AbstractSyntaxTreeNode {
 	ParamList pl;
 	ArrayList <Param> pList = new ArrayList<>();
@@ -42,5 +44,11 @@ public class ParamList extends AbstractSyntaxTreeNode {
 	public String getNodeType() {
 		// TODO Auto-generated method stub
 		return "ParamList";
+	}
+
+	@Override
+	public boolean checkSemantic(Symbol context) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

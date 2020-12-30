@@ -1,7 +1,7 @@
 /* A C- program to compute gcd using Euclid’s Algorithm. */
 int test;
 
-int gcd ( int u, int v ) {
+int gcd (int u, int v) {
   if ( v == 0 )
     return u ;
   else
@@ -11,7 +11,12 @@ int gcd ( int u, int v ) {
 
 void main(void) {
   int x;
-  int y;
+  int y[10];
+
+  {
+    int w;
+    int main;
+  }
 
   x = 1 + 2 + 3 + 4;
   x = input();
