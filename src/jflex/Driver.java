@@ -98,6 +98,7 @@ public class Driver {
 	            
 	            program.printTree(0);
 	            
+	            System.out.println("\n\nSemantic analysis:\n");    
 	            symbolTable.Symbol context = new symbolTable.Symbol(ESymbolType.Scope);
 	            program.checkSemantic(context);
 			}

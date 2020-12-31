@@ -14,7 +14,15 @@ public class VarDeclaration extends AbstractSyntaxTreeNode {
 		this.ID = ID;
 		this.NUM = null;
 		
-		this.currentSymbol = new Symbol(this.ID, ESymbolType.INT);
+		if(ts.type.equals("INT")) {			
+			this.currentSymbol = new Symbol(this.ID, ESymbolType.INT);
+		}
+		else if(ts.type.equals("VOID")) {			
+			this.currentSymbol = new Symbol(this.ID, ESymbolType.VOID);
+		}
+		else {
+			this.currentSymbol = new Symbol(this.ID, ESymbolType.Error);
+		}
 		
 		this.addNode(ts);
 	}
@@ -24,7 +32,15 @@ public class VarDeclaration extends AbstractSyntaxTreeNode {
 		this.ID = ID;
 		this.NUM = NUM;
 		
-		this.currentSymbol = new Symbol(this.ID, ESymbolType.INTarray);
+		if(ts.type.equals("INT")) {			
+			this.currentSymbol = new Symbol(this.ID, ESymbolType.INTarray);
+		}
+		else if(ts.type.equals("VOID")) {			
+			this.currentSymbol = new Symbol(this.ID, ESymbolType.VOID);
+		}
+		else {
+			this.currentSymbol = new Symbol(this.ID, ESymbolType.Error);
+		}
 		
 		this.addNode(ts);
 	}
@@ -49,6 +65,11 @@ public class VarDeclaration extends AbstractSyntaxTreeNode {
 
 	@Override
 	public boolean checkSemantic(Symbol context) {
+		if(this.currentSymbol.getType() != ESymbolType.INT 
+		&& this.currentSymbol.getType() != ESymbolType.INTarray) {
+			semanticErrors.add("Error: Incompatible type for symbol " + currentSymbol.getName());
+		}
+		
 		if(context.addSymbol(this.currentSymbol)) {
 		}
 		else {
