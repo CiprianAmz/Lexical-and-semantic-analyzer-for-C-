@@ -46,7 +46,12 @@ public class FunDeclaration extends AbstractSyntaxTreeNode {
 	public boolean checkSemantic(Symbol context) {
 //		Symbol newScope = new Symbol(ESymbolType.Scope);
 //		currentSymbol.addSymbol(newScope);
-		context.addSymbol(currentSymbol);
+		
+		if(context.addSymbol(this.currentSymbol)) {
+		}
+		else {
+			semanticErrors.add("Error: Multiple declarations for symbol " + currentSymbol.getName());
+		}
 		
 		if(this.p.pl != null) {			
 			currentSymbol.setArgumentsNumber(p.pl.pList.size());

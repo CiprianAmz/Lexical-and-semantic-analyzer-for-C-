@@ -98,8 +98,9 @@ public class Symbol {
 	}
 	
 	public boolean addSymbol(Symbol symbol) {
-		if(symbol.type == ESymbolType.Scope
-		|| this.searchSymbol(symbol.getName()) == null) {			
+//		if(symbol.type == ESymbolType.Scope
+//		|| 
+		if(this.searchSymbol(symbol.getName()) == null) {			
 			this.symbolTable.add(symbol);
 			symbol.setRef(this);
 			return true;

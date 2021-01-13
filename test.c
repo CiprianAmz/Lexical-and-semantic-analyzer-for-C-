@@ -9,11 +9,16 @@ int gcd (int u, int v) {
 /* u-u/v*v == u mod v */
 }
 
+void gcd(void) {
+
+}
+
 void main(void) {
   int x;
   int y[4];
 
   {
+    int x;
     int w;
   }
 
